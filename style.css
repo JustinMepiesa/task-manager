@@ -1,0 +1,190 @@
+/* =========================
+   Global Styles
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 40px 16px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #222;
+}
+
+/* =========================
+   Main Container
+========================= */
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* =========================
+   Headings
+========================= */
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 28px;
+    font-size: 28px;
+    text-align: center;
+    color: #1e293b;
+}
+
+h2 {
+    margin-top: 30px;
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #334155;
+}
+
+/* =========================
+   Task Form
+========================= */
+
+#task-form {
+    display: flex;
+    gap: 10px;
+}
+
+#task-input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+#task-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+/* =========================
+   Buttons
+========================= */
+
+button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #4338ca;
+}
+
+/* =========================
+   Filter Buttons
+========================= */
+
+#filter-all,
+#filter-pending,
+#filter-completed {
+    margin-right: 6px;
+    margin-bottom: 12px;
+    background-color: #e8eaf0;
+    color: #475569;
+}
+
+#filter-all.active,
+#filter-pending.active,
+#filter-completed.active {
+    background-color: #4f46e5;
+    color: white;
+}
+
+#filter-all:hover,
+#filter-pending:hover,
+#filter-completed:hover {
+    background-color: #d9dce5;
+}
+
+/* =========================
+   Task List
+========================= */
+
+#task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#task-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+
+#task-list li span {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   Task Action Buttons
+========================= */
+
+#task-list li button {
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+#task-list li button:last-child {
+    background-color: #ef4444;
+}
+
+#task-list li button:last-child:hover {
+    background-color: #dc2626;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 480px) {
+    .container {
+        padding: 22px 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    #task-form {
+        flex-direction: column;
+    }
+
+    #task-form button {
+        width: 100%;
+    }
+
+    #task-list li {
+        flex-wrap: wrap;
+    }
+}

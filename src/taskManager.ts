@@ -11,12 +11,14 @@ export function addTask(title: string): void {
     }
 
     tasks.push(newTask);
+    saveTasks();
 }
 
 export function deleteTask(id: number): void {
     tasks = tasks.filter((task) => {
         return task.id !== id;
     });
+    saveTasks();
 }
 
 export function toggleTask(id: number): void {
@@ -24,6 +26,7 @@ export function toggleTask(id: number): void {
 
     if(task) {
         task.completed = !task.completed;
+        saveTasks();
     }
 }
 
@@ -42,3 +45,32 @@ export function getPendingTasks(): Task[] {
 export function getTasks(): Task[] {
     return tasks;
 }
+
+function saveTasks(): void {
+    localStorage.setItem("tasks", JSON.stringify(tasks));   
+}
+
+export function loadTasks(): void {
+    const savedTasks = localStorage.getItem("tasks");
+
+    try {
+        if(savedTasks) {
+            tasks = JSON.parse(savedTasks) as Task[]; 
+        } else {
+            nextId = 1;
+        }
+    } catch (error) {
+        tasks = [];
+        nextId = 1;
+    }
+
+    const taskIds = tasks.map((task) => {
+        return task.id;
+    });
+
+    if(taskIds.length > 0) {
+        const highestId = Math.max(...taskIds);
+        nextId = highestId + 1;
+    }
+}
+

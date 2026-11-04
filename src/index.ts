@@ -1,4 +1,4 @@
-import { addTask, deleteTask, toggleTask, getTasks, getCompletedTasks, getPendingTasks} from "./taskManager.js";
+import { addTask, deleteTask, toggleTask, getTasks, getCompletedTasks, getPendingTasks, loadTasks} from "./taskManager.js";
 import type { Task } from "./types/task.js";
 
 const taskForm = document.querySelector<HTMLFormElement>("#task-form");
@@ -20,15 +20,22 @@ taskForm.addEventListener("submit", (event) => {
     if (!title) return;
 
     addTask(title);
-    renderTasks(getTasks(), "all");
-    
+    render();
     taskInput.value = "";
 });
 
 type TaskFilter = "pending" | "completed" | "all";
+let currentFilter: TaskFilter = "all";
+
+function updateActiveFilter(filter: TaskFilter): void {
+    filterAll?.classList.toggle("active", filter === "all");
+    filterPending?.classList.toggle("active", filter === "pending");
+    filterCompleted?.classList.toggle("active", filter === "completed");
+}
 
 function renderTasks(taskArray: Task[], filter: TaskFilter): void {
-
+    updateActiveFilter(filter);
+    
     if(!taskList) {
         return;
     }
@@ -74,13 +81,13 @@ function renderTasks(taskArray: Task[], filter: TaskFilter): void {
             const taskId = Number(li.dataset.id);
 
             toggleTask(taskId);
-            renderTasks(getTasks(), "all");
+            render();
         });
 
         deleteTaskButton.addEventListener("click", () => {
             const taskId = Number(li.dataset.id);
             deleteTask(taskId);
-            renderTasks(getTasks(), "all");
+            render();
         });
 
         li.appendChild(taskTitle);
@@ -90,16 +97,31 @@ function renderTasks(taskArray: Task[], filter: TaskFilter): void {
     })
 }
 
+function render(): void {
+    let tasksToShow: Task[];
+
+    if (currentFilter === "completed") {
+        tasksToShow = getCompletedTasks();
+    } else if (currentFilter === "pending") {
+        tasksToShow = getPendingTasks();
+    } else {
+        tasksToShow = getTasks();
+    }
+
+    renderTasks(tasksToShow, currentFilter);
+}
+
 filterAll?.addEventListener("click", () => {
-    renderTasks(getTasks(), "all");
+    currentFilter = "all";
+    render();
 });
 
 filterCompleted?.addEventListener("click", () => {
-    renderTasks(getCompletedTasks(), "completed");
+    currentFilter = "completed";
+    render();
 });
 
 filterPending?.addEventListener("click", () => {
-    renderTasks(getPendingTasks(), "pending");
+    currentFilter = "pending";
+    render();
 });
-
-renderTasks(getTasks(), "all");
